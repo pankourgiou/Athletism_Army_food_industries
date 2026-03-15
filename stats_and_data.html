@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Industry Statistical Analysis Vol.2 — Athletics · Army · Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #09090f;
+  --surface: #111118;
+  --surface2: #18181f;
+  --border: rgba(255,255,255,0.06);
+  --text: #d8dae8;
+  --muted: #7a7d96;
+
+  --sport-green: #00e676;
+  --sport-mid: #00c853;
+  --sport-dark: #003816;
+  --sport-glow: rgba(0,230,118,0.12);
+
+  --army-amber: #ffab00;
+  --army-orange: #ff6d00;
+  --army-dark: #1a1000;
+  --army-glow: rgba(255,171,0,0.12);
+
+  --food-red: #ff4f7b;
+  --food-rose: #ff1744;
+  --food-dark: #1a0008;
+  --food-glow: rgba(255,79,123,0.12);
+
+  --white: #ffffff;
+  --grid: rgba(255,255,255,0.025);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+body::before {
+  content:'';
+  position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;padding:5rem 2rem;
+  position:relative;overflow:hidden;
+}
+.hero-orbs {
+  position:absolute;inset:0;pointer-events:none;
+}
+.orb {
+  position:absolute;border-radius:50%;filter:blur(80px);
+  animation:drift 10s ease-in-out infinite;
+}
+.orb1{width:500px;height:500px;background:rgba(0,230,118,0.06);top:-100px;left:-100px;animation-delay:0s}
+.orb2{width:600px;height:600px;background:rgba(255,171,0,0.05);bottom:-150px;right:-150px;animation-delay:3s}
+.orb3{width:400px;height:400px;background:rgba(255,79,123,0.06);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:6s}
+
+@keyframes drift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(30px,-20px) scale(1.08)}
+}
+.orb3{animation:drift3 12s ease-in-out infinite}
+@keyframes drift3{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  50%{transform:translate(calc(-50% + 20px),calc(-50% - 30px)) scale(1.1)}
+}
+
+.hero-eyebrow {
+  font-family:'Space Mono',monospace;
+  font-size:0.68rem;letter-spacing:0.35em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:2rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.2s;
+}
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,9vw,7.5rem);
+  font-weight:700;line-height:1.0;
+  color:#fff;letter-spacing:-0.02em;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.4s;
+}
+.hero-title .g { color:var(--sport-green); }
+.hero-title .a { color:var(--army-amber); }
+.hero-title .f { color:var(--food-red); }
+
+.hero-sub {
+  margin-top:1.5rem;font-size:1.05rem;color:var(--muted);
+  max-width:650px;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.6s;
+}
+.hero-pills {
+  display:flex;gap:0.75rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.8s;
+}
+.pill {
+  padding:0.5rem 1.25rem;border-radius:100px;
+  font-size:0.75rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  border:1px solid;cursor:default;
+}
+.pill-s{border-color:var(--sport-green);color:var(--sport-green);background:var(--sport-glow)}
+.pill-a{border-color:var(--army-amber);color:var(--army-amber);background:var(--army-glow)}
+.pill-f{border-color:var(--food-red);color:var(--food-red);background:var(--food-glow)}
+
+.scroll-line{
+  position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 1.1s;
+}
+.scroll-line span{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
+.scroll-line::after{
+  content:'';width:1px;height:60px;
+  background:linear-gradient(to bottom,var(--muted),transparent);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NAV ── */
+nav {
+  position:sticky;top:0;z-index:200;
+  background:rgba(9,9,15,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  gap:0;
+}
+nav::-webkit-scrollbar{display:none}
+.nitem {
+  padding:1rem 1.2rem;
+  font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted);border-bottom:2px solid transparent;
+  text-decoration:none;transition:all 0.2s;white-space:nowrap;
+}
+.nitem:hover{color:var(--text)}
+.ns{border-color:var(--sport-green)!important;color:var(--sport-green)!important}
+.na{border-color:var(--army-amber)!important;color:var(--army-amber)!important}
+.nf{border-color:var(--food-red)!important;color:var(--food-red)!important}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1280px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:1}
+
+/* ── PART HEADERS ── */
+.part-hero{
+  padding:7rem 0 3rem;position:relative;
+}
+.part-tag{
+  font-family:'Space Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;
+  margin-bottom:1rem;display:block;
+}
+.part-h{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.8rem,6vw,5.5rem);
+  font-weight:700;line-height:1.05;letter-spacing:-0.02em;
+  color:#fff;
+}
+.part-h em{font-style:italic}
+.part-desc{
+  margin-top:1.5rem;color:var(--muted);
+  font-size:1rem;max-width:780px;line-height:1.8;
+}
+
+.ps .part-tag,.ps em{color:var(--sport-green)}
+.pa .part-tag,.pa em{color:var(--army-amber)}
+.pf .part-tag,.pf em{color:var(--food-red)}
+
+.part-bar{height:2px;border-radius:2px;margin-bottom:4rem}
+.bs{background:linear-gradient(90deg,var(--sport-green),transparent)}
+.ba{background:linear-gradient(90deg,var(--army-amber),transparent)}
+.bf{background:linear-gradient(90deg,var(--food-red),transparent)}
+
+/* ── SECTION TITLES ── */
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;font-weight:700;
+  color:#fff;margin:3.5rem 0 1rem;
+  letter-spacing:-0.01em;
+}
+.sub-title{
+  font-size:1.05rem;font-weight:600;
+  color:var(--text);margin:2.5rem 0 0.75rem;
+}
+.body-t{
+  color:var(--muted);font-size:0.93rem;
+  line-height:1.85;max-width:900px;margin-bottom:1.25rem;
+}
+
+/* ── STAT CARDS ── */
+.grid-4{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:2rem 0}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin:2rem 0}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.6rem;
+  position:relative;overflow:hidden;
+  transition:transform 0.2s,border-color 0.2s;
+}
+.card:hover{transform:translateY(-4px)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px}
+.card.cs::before{background:var(--sport-green)}
+.card.ca::before{background:var(--army-amber)}
+.card.cf::before{background:var(--food-red)}
+.card.cs:hover{border-color:rgba(0,230,118,0.25);background:rgba(0,230,118,0.03)}
+.card.ca:hover{border-color:rgba(255,171,0,0.25);background:rgba(255,171,0,0.03)}
+.card.cf:hover{border-color:rgba(255,79,123,0.25);background:rgba(255,79,123,0.03)}
+
+.card-label{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:0.7rem}
+.card-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;line-height:1.1;color:#fff}
+.card-note{margin-top:0.5rem;font-size:0.78rem;color:var(--muted);line-height:1.5}
+.badge{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  margin-top:0.6rem;padding:0.2rem 0.6rem;
+  border-radius:100px;font-size:0.7rem;font-weight:600;
+  font-family:'Space Mono',monospace;
+}
+.up{background:rgba(34,197,94,0.12);color:#22c55e}
+.down{background:rgba(239,68,68,0.12);color:#ef4444}
+.neu{background:rgba(148,163,184,0.12);color:#94a3b8}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto;margin:2rem 0;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead tr{background:var(--surface2)}
+thead th{
+  padding:0.9rem 1.1rem;text-align:left;
+  font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,0.025)}
+tbody td{padding:0.85rem 1.1rem;color:var(--text);vertical-align:top;line-height:1.55}
+tbody td:first-child{color:#fff;font-weight:500}
+.vs{font-family:'Space Mono',monospace;color:var(--sport-green);font-size:0.8rem}
+.va{font-family:'Space Mono',monospace;color:var(--army-amber);font-size:0.8rem}
+.vf{font-family:'Space Mono',monospace;color:var(--food-red);font-size:0.8rem}
+
+/* ── HIGHLIGHT BLOCK ── */
+.hbox{
+  border-left:3px solid;border-radius:0 12px 12px 0;
+  padding:1.5rem 2rem;margin:2.5rem 0;
+  font-size:0.93rem;line-height:1.8;
+}
+.hbs{border-color:var(--sport-green);background:rgba(0,230,118,0.04);color:var(--text)}
+.hba{border-color:var(--army-amber);background:rgba(255,171,0,0.04);color:var(--text)}
+.hbf{border-color:var(--food-red);background:rgba(255,79,123,0.04);color:var(--text)}
+.hbox strong{color:#fff}
+
+/* ── BULLET LIST ── */
+.blist{list-style:none;margin:1rem 0 2rem;display:grid;gap:0.65rem}
+.blist li{
+  display:flex;gap:0.85rem;align-items:flex-start;
+  font-size:0.9rem;color:var(--muted);line-height:1.65;
+  padding:0.75rem 1rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+}
+.blist li::before{
+  flex-shrink:0;font-weight:700;font-size:0.75rem;
+  margin-top:0.2rem;
+}
+.blist.bs li::before{content:'▶';color:var(--sport-green)}
+.blist.ba li::before{content:'▶';color:var(--army-amber)}
+.blist.bf li::before{content:'▶';color:var(--food-red)}
+.blist strong{color:var(--text)}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}}
+
+.info-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:1.75rem;
+}
+.info-card h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:0.75rem;
+}
+.info-card p{font-size:0.88rem;color:var(--muted);line-height:1.75}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid var(--border);margin:5rem 0}
+
+/* ── SECTION DIVIDER BANNER ── */
+.sec-banner{
+  padding:5rem 0 3rem;margin-top:3rem;
+  border-top:1px solid var(--border);
+}
+.sec-banner-tag{
+  font-family:'Space Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.4em;
+  text-transform:uppercase;margin-bottom:0.5rem;display:block;
+}
+
+/* ── FOOTER ── */
+footer{
+  margin-top:8rem;padding:4rem 2rem;
+  border-top:1px solid var(--border);
+  text-align:center;color:var(--muted);font-size:0.8rem;
+}
+footer p{margin-bottom:0.5rem}
+
+/* ── BACK TOP ── */
+.btt{
+  position:fixed;bottom:2rem;right:2rem;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;text-decoration:none;font-size:1.1rem;
+  transition:all 0.2s;z-index:300;
+}
+.btt:hover{color:#fff;border-color:rgba(255,255,255,0.2)}
+
+/* ── FADE IN ── */
+.fi{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fi.vis{opacity:1;transform:translateY(0)}
+
+/* ── BIG NUMBERS ROW ── */
+.big-nums{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:0;margin:3rem 0;
+  border:1px solid var(--border);border-radius:14px;overflow:hidden;
+}
+.bnum{
+  padding:2rem 1.5rem;border-right:1px solid var(--border);
+  text-align:center;
+}
+.bnum:last-child{border-right:none}
+.bnum-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:700;line-height:1;margin-bottom:0.5rem;
+}
+.bnum-label{font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div style="position:relative;z-index:1">
+    <div class="hero-eyebrow">Global Industry Statistical Analysis · Volume II · March 2026</div>
+    <h1 class="hero-title">
+      <span class="g">Athletics</span><br>
+      <span class="a">Army</span> &amp; <span class="f">Food</span>
+    </h1>
+    <p class="hero-sub">A comprehensive data-driven report covering three global industries — worldwide, across Europe, and with a deep focus on the Greek market</p>
+    <div class="hero-pills">
+      <span class="pill pill-s">🏃 Sports &amp; Athletics</span>
+      <span class="pill pill-a">🪖 Army &amp; Defense</span>
+      <span class="pill pill-f">🍽️ Food Industry</span>
+    </div>
+  </div>
+  <div class="scroll-line"><span>Scroll</span></div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <a class="nitem ns" href="#sports-world">Sports World</a>
+  <a class="nitem ns" href="#sports-europe">Sports Europe</a>
+  <a class="nitem ns" href="#sports-greece">Sports Greece</a>
+  <a class="nitem na" href="#army-world">Army World</a>
+  <a class="nitem na" href="#army-europe">Army Europe</a>
+  <a class="nitem na" href="#army-greece">Army Greece</a>
+  <a class="nitem nf" href="#food-world">Food World</a>
+  <a class="nitem nf" href="#food-europe">Food Europe</a>
+  <a class="nitem nf" href="#food-greece">Food Greece</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PART I: SPORTS / ATHLETICS — WORLDWIDE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="sports-world">
+<div class="wrap">
+  <div class="part-hero ps fi">
+    <span class="part-tag">Part I — Global · Sports &amp; Athletics Industry</span>
+    <h2 class="part-h">Sports &amp;<br><em>Athletics</em><br>Worldwide</h2>
+    <p class="part-desc">The global sports industry is one of the most economically significant and culturally pervasive sectors on earth. Spanning spectator events, participatory athletics, equipment, apparel, media rights, analytics, and betting, the market encompasses an estimated $2.65 trillion in total economic activity according to the broadest definitions — and is growing at a sustained pace driven by digital fan engagement, AI integration, and the continued globalisation of elite sport.</p>
+  </div>
+  <div class="part-bar bs"></div>
+
+  <h3 class="sec-title fi">1.1 Total Market Size — Global Sports</h3>
+  <p class="body-t fi">Market size definitions vary enormously depending on scope. The "narrow" market covers only media, tickets, and merchandise. The "broad" market (Best-Howard model) encompasses all sports-related economic activity including infrastructure, tourism, health, and betting.</p>
+
+  <div class="big-nums fi">
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--sport-green)">$495B</div>
+      <div class="bnum-label">Sports Market (Narrow) 2025</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--sport-green)">$2.65T</div>
+      <div class="bnum-label">Sports Market (Broad, Best-Howard)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--sport-green)">$654B</div>
+      <div class="bnum-label">Projected Market 2030</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--sport-green)">5.8%</div>
+      <div class="bnum-label">CAGR 2025–2030</div>
+    </div>
+  </div>
+
+  <div class="grid-4 fi">
+    <div class="card cs">
+      <div class="card-label">Global Sports Market (2025)</div>
+      <div class="card-val">$495.4B</div>
+      <div class="card-note">Research &amp; Markets — media, tickets, merchandise</div>
+      <span class="badge up">▲ +5.3% to $521.7B in 2026</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Apparel Market (2025)</div>
+      <div class="card-val">$220.4B</div>
+      <div class="card-note">Projected $298B by 2032 — CAGR growing</div>
+      <span class="badge up">▲ Strong growth</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Equipment Market (2024)</div>
+      <div class="card-val">$113.1B</div>
+      <div class="card-note">Predicted $220.4B by 2034 — CAGR 6.90%</div>
+      <span class="badge up">▲ +6.90% CAGR</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Analytics Market (2025)</div>
+      <div class="card-val">$5.68B</div>
+      <div class="card-note">Projected $23.1B by 2033 — CAGR 18.5%</div>
+      <span class="badge up">▲ Fastest growing sub-sector</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Olympic Games Market (2025)</div>
+      <div class="card-val">$7.6B</div>
+      <div class="card-note">Projected $10.5B by 2033 — CAGR 5%</div>
+      <span class="badge up">▲ LA 2028 drives outlook</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Youth Sports Market (2022)</div>
+      <div class="card-val">$37.5B</div>
+      <div class="card-note">Forecast $69.4B by 2030 — CAGR 9.2%</div>
+      <span class="badge up">▲ +9.2% CAGR</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Betting &amp; Lottery (2022)</div>
+      <div class="card-val">$235.5B</div>
+      <div class="card-note">Large adjacent market; separate from core sports</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Revenue (USA, 2025)</div>
+      <div class="card-val">$42.2B</div>
+      <div class="card-note">Statista — US leads all single-country markets</div>
+      <span class="badge up">▲ #1 global market</span>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">1.2 Market Segmentation by Type</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Segment</th><th>2025 Market Size / Share</th><th>Key Notes</th><th>Growth</th></tr></thead>
+      <tbody>
+        <tr><td>Spectator Sports (Professional Leagues)</td><td class="vs">~$180–200B</td><td>Football, basketball, baseball, cricket, motorsport dominate</td><td class="vs">+5–7% YoY</td></tr>
+        <tr><td>Sports Apparel &amp; Footwear</td><td class="vs">$220.4B</td><td>Nike ($51.4B FY2024 revenue), Adidas, Puma lead; athleisure expanding</td><td class="vs">+6–8% CAGR</td></tr>
+        <tr><td>Sports Equipment</td><td class="vs">$113.1B</td><td>North America leads with ~32% share; Asia-Pacific fastest growing at CAGR 8.36%</td><td class="vs">+6.9% CAGR</td></tr>
+        <tr><td>Sports Analytics</td><td class="vs">$5.68B</td><td>Europe led with 31% share in 2025; football segment fastest-growing at CAGR 20%+</td><td class="vs">+18.5% CAGR</td></tr>
+        <tr><td>Fitness &amp; Wellness / Gym</td><td class="vs">Part of $495B</td><td>Rising health consciousness; 1 in 2 consumers say fitness is core to identity</td><td class="vs">Expanding</td></tr>
+        <tr><td>Esports</td><td class="vs">Rapidly growing</td><td>Rising investment; deeper integration with streaming and betting ecosystems</td><td class="vs">Fast CAGR</td></tr>
+        <tr><td>Sports Tourism &amp; Events</td><td class="vs">Significant share</td><td>Major events (World Cup, Olympics, F1) generate multi-billion local economic impact</td><td class="vs">Growing</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">1.3 Leading Global Sports Brands &amp; Revenues</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Company</th><th>Country</th><th>Revenue / Key Metric</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Nike Inc.</td><td>USA</td><td class="vs">$51.4B (FY2024)</td><td>World's largest sportswear company; diversified across footwear, apparel, equipment</td></tr>
+        <tr><td>Adidas AG</td><td>Germany</td><td class="vs">~€21–23B est.</td><td>Collabs (Balenciaga, Dua Lipa) driving mainstream expansion</td></tr>
+        <tr><td>Puma SE</td><td>Germany</td><td class="vs">~€8–9B est.</td><td>NITROFOAM Elite cushioning; launched track-inspired running platform Sep 2025</td></tr>
+        <tr><td>Lululemon Athletica</td><td>Canada</td><td class="vs">+12% Q3 2024 growth</td><td>Direct-to-consumer digital strategy; premium athleisure leader</td></tr>
+        <tr><td>Dick's Sporting Goods</td><td>USA</td><td class="vs">+4.5% comparable sales</td><td>Largest US sporting goods retailer; omnichannel expansion</td></tr>
+        <tr><td>Sportradar Group</td><td>Switzerland</td><td class="vs">Acquired IMG Arena Nov 2025</td><td>Sports data/analytics giant; 70+ rightsholders, massive consolidation move</td></tr>
+        <tr><td>Sony / STATSports</td><td>Japan/UK</td><td class="vs">Acquired STATSports Oct 2025</td><td>Sony entering wearable athlete tracking analytics for teams</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">1.4 Regional Distribution (Narrow Sports Market, 2025)</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Region</th><th>Revenue Share</th><th>Leading Markets</th><th>Key Drivers</th></tr></thead>
+      <tbody>
+        <tr><td>North America</td><td class="vs">~41%</td><td>US ($42.2B), Canada</td><td>NFL, NBA, MLB, college athletics, NCAA; 193 professional sports teams in US</td></tr>
+        <tr><td>Europe</td><td class="vs">~31%</td><td>UK, Germany, France, Spain</td><td>Premier League (shown in 188 countries), UEFA, Formula 1, Tour de France</td></tr>
+        <tr><td>Asia-Pacific</td><td class="vs">~20%</td><td>China, Japan, India, Australia</td><td>Cricket (India IPL), Olympics legacy, rising middle class; fastest growing CAGR 8.36%</td></tr>
+        <tr><td>Rest of World</td><td class="vs">~8%</td><td>Brazil, Saudi Arabia, MEA</td><td>Saudi sports investment boom; MENA restaurant sports tie-ins; Brazil football</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">1.5 Key Industry Trends</h3>
+  <ul class="blist bs fi">
+    <li><strong>AI &amp; Wearable Analytics:</strong> Sports analytics CAGR of 18.5–20.5% — the fastest-growing sub-sector. On-field analysis holds 62%+ share. AI tools optimize nutrition plans, injury prevention, and in-game strategy for elite teams globally.</li>
+    <li><strong>AI Integration (Sony &amp; STATSports):</strong> Sony's October 2025 acquisition of STATSports signals major tech-industry convergence with sports analytics. Wearable GPS devices and performance platforms are becoming standard in professional and semi-professional sport.</li>
+    <li><strong>Women's Sports Explosion:</strong> Title IX enforcement boosting US youth sport investment; women's athletics, football, and basketball seeing accelerating commercial interest and broadcast deal values.</li>
+    <li><strong>Athleisure Cultural Shift:</strong> 65%+ of urban adults globally own functional activewear. 1 in 2 active consumers identify fitness as core to their personal identity. High-fashion tie-ins (Adidas×Balenciaga, Puma×Dua Lipa) expanding sports apparel into mainstream fashion.</li>
+    <li><strong>Esports &amp; Digital Fan Engagement:</strong> Virtual and hybrid sports formats offering 24/7 global reach; deeper integration with betting platforms driving both revenue and engagement for broadcasters and leagues.</li>
+    <li><strong>Health Crisis as Opportunity:</strong> 31% of adults globally are physically inactive; projected to rise to 35% by 2030 — simultaneously a market risk and a structural opportunity for fitness and wellness sector growth.</li>
+    <li><strong>Geopolitical Sports Investment:</strong> Saudi Arabia and Qatar deploying sovereign wealth into football, golf, boxing, and F1 to drive tourism and soft power — reshaping global sports economics in 2024–2026.</li>
+  </ul>
+</div>
+</section>
+
+<!-- SPORTS — EUROPE -->
+<section id="sports-europe">
+<div class="wrap">
+  <div class="sec-banner ps fi">
+    <span class="sec-banner-tag" style="color:var(--sport-green)">Part I continued — Europe Focus</span>
+    <h2 class="part-h"><em>European</em><br>Sports Industry</h2>
+    <p class="part-desc" style="margin-top:1rem">Europe is home to the world's most commercially valuable football leagues, the dominant tradition of Olympic sports, and a mature sporting goods manufacturing base. The continent accounts for roughly 31% of global narrow sports market revenue, with football (soccer) generating the lion's share of economic activity.</p>
+  </div>
+  <div class="part-bar bs"></div>
+
+  <h3 class="sec-title fi">1.6 European Sports Market Data</h3>
+  <div class="grid-4 fi">
+    <div class="card cs">
+      <div class="card-label">Europe Sports Analytics Share (2025)</div>
+      <div class="card-val">31%+</div>
+      <div class="card-note">Europe led global sports analytics in 2025 — largest regional share</div>
+      <span class="badge up">▲ #1 Analytics Region</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Premier League Countries</div>
+      <div class="card-val">188</div>
+      <div class="card-note">Countries broadcasting Premier League — most globally watched sports product</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">European Sports Equipment</div>
+      <div class="card-val">~19% share</div>
+      <div class="card-note">Of global sports equipment market; Germany, Italy, France lead</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">France — Paris 2024 Olympics Economic Impact</div>
+      <div class="card-val">€10–11B</div>
+      <div class="card-note">Estimated direct and indirect economic impact on France</div>
+      <span class="badge up">▲ Tourism, infrastructure, broadcast</span>
+    </div>
+  </div>
+
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Country / League</th><th>Revenue / Metric</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>English Premier League (EPL)</td><td class="vs">~£6–7B annual revenue</td><td>World's richest football league; broadcast deal ~£10B 2022–25 cycle</td></tr>
+        <tr><td>La Liga (Spain)</td><td class="vs">~€3.5–4B</td><td>Real Madrid (~€831M revenue 2024) &amp; Barcelona lead European club revenues</td></tr>
+        <tr><td>Bundesliga (Germany)</td><td class="vs">~€3.5B</td><td>Bayern Munich dominant; strong fan ownership model</td></tr>
+        <tr><td>Serie A (Italy)</td><td class="vs">~€2.5B</td><td>Recovering post-COVID; Inter Milan UCL runs driving growth</td></tr>
+        <tr><td>Ligue 1 (France)</td><td class="vs">~€1.5–2B</td><td>Post-PSG-Qatar era transition; broadcast deal restructured</td></tr>
+        <tr><td>UEFA Champions League</td><td class="vs">~€3B+</td><td>Largest annual club football competition; global broadcast audience in billions</td></tr>
+        <tr><td>Formula 1</td><td class="vs">~$3.5B revenue (Liberty Media)</td><td>10 teams, 24-race calendar; record attendance and viewership in 2024–25</td></tr>
+        <tr><td>Paris 2024 Olympics</td><td class="vs">~€11B total budget</td><td>Record TV/streaming viewership; 1.2B global viewers in opening ceremony alone</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbs fi">
+    <p><strong>European Sports Analytics Leadership:</strong> Europe holds over 31% of the global sports analytics market share in 2025, making it the world's largest analytics-consuming region in sport. Football's enormous data requirements — player tracking, expected goals (xG), match event data — are the primary driver. The football segment within sports analytics is expected to grow at over 20% CAGR from 2026 to 2033. Companies like Sportradar, Opta, and StatsBomb originate from Europe and dominate global sports data supply chains.</p>
+  </div>
+</div>
+</section>
+
+<!-- SPORTS — GREECE -->
+<section id="sports-greece">
+<div class="wrap">
+  <div class="sec-banner ps fi">
+    <span class="sec-banner-tag" style="color:var(--sport-green)">Part I continued — Greece Focus</span>
+    <h2 class="part-h">Sports &amp; Athletics<br>in <em>Greece</em></h2>
+    <p class="part-desc" style="margin-top:1rem">Greece holds the most historically profound position in world sport — as the birthplace of the Olympic Games in ancient Olympia (~776 BCE). Today, Greek sport spans a passionate professional football and basketball culture, a strong tradition in athletics and aquatic sports, and a sports equipment market that continues to expand as health awareness rises.</p>
+  </div>
+  <div class="part-bar bs"></div>
+
+  <h3 class="sec-title fi">1.7 Greece Sports Industry — Key Statistics</h3>
+  <div class="grid-4 fi">
+    <div class="card cs">
+      <div class="card-label">Sports Equipment Market Greece (2024)</div>
+      <div class="card-val">~$230M</div>
+      <div class="card-note">Projected $269M by 2028 — CAGR 2.18%</div>
+      <span class="badge up">▲ Growing</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Revenue per Person (Sports Equipment)</div>
+      <div class="card-val">$23.94</div>
+      <div class="card-note">Per capita 2024; below EU average, growth trend positive</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Greek Olympic Medals Total (All-time)</div>
+      <div class="card-val">169</div>
+      <div class="card-note">In 17 different sports at Summer Olympics incl. Intercalated Games</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Paris 2024 Olympic Team</div>
+      <div class="card-val">101</div>
+      <div class="card-note">athletes in 17 sports; 8 medals (1G, 1S, 6B)</div>
+      <span class="badge up">▲ Strong performance</span>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Super League Greece UEFA Rank</div>
+      <div class="card-val">12th</div>
+      <div class="card-note">Currently; peaked at 6th in 2002–2003</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Greek Club EuroLeague Championships</div>
+      <div class="card-val">10</div>
+      <div class="card-note">Since 1988 — one of Europe's most successful basketball countries</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Athens Classic Marathon Runners</div>
+      <div class="card-val">~50,000+</div>
+      <div class="card-note">Annual registered participants; IAAF Gold Label Race since 1983</div>
+    </div>
+    <div class="card cs">
+      <div class="card-label">Sports Nutrition Value Sales (Greece, 2025)</div>
+      <div class="card-val">Rising</div>
+      <div class="card-note">Strong single-digit increase in 2025; fitness culture driving demand</div>
+      <span class="badge up">▲ Growing category</span>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">1.8 Greek Athletic Performance — Olympic &amp; International</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Athlete / Event</th><th>Achievement</th><th>Year</th></tr></thead>
+      <tbody>
+        <tr><td>Miltiadis Tentoglou (Long Jump)</td><td class="vs">Back-to-back Olympic Gold (8.48m, Paris)</td><td class="vs">Tokyo 2020 + Paris 2024</td></tr>
+        <tr><td>Emmanouil Karalis (Pole Vault)</td><td class="vs">Olympic finalist, European medal contender</td><td class="vs">Paris 2024</td></tr>
+        <tr><td>Greece Women's Water Polo</td><td class="vs">World Championship Gold (Singapore)</td><td class="vs">2025</td></tr>
+        <tr><td>Greece Men's Water Polo</td><td class="vs">World Championship Bronze (Singapore)</td><td class="vs">2025</td></tr>
+        <tr><td>Maria Prevolaraki (Wrestling)</td><td class="vs">European Championship Gold (Bratislava)</td><td class="vs">May 2025</td></tr>
+        <tr><td>Olympiacos FC</td><td class="vs">UEFA Conference League Winner — first European title</td><td class="vs">2024</td></tr>
+        <tr><td>Olympiacos Youth</td><td class="vs">UEFA Youth League Winner</td><td class="vs">2024</td></tr>
+        <tr><td>Evangelia Platanioti (Artistic Swimming)</td><td class="vs">Multiple Olympic &amp; European medals</td><td class="vs">2024–2025</td></tr>
+        <tr><td>Dimitris Oikonomou (Kickboxing)</td><td class="vs">Gold at 2025 World Games in Chengdu</td><td class="vs">2025</td></tr>
+        <tr><td>Greece National Basketball Team</td><td class="vs">EuroBasket Champions (1987, 2005)</td><td class="vs">Historic</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">1.9 Professional Sports Landscape in Greece</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>League / Sport</th><th>Status</th><th>Key Clubs</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Super League Greece (Football)</td><td class="vs">1st Division</td><td>Olympiacos, Panathinaikos, AEK Athens, PAOK</td><td>16 clubs; 12th in UEFA coefficient rankings 2025</td></tr>
+        <tr><td>Basket League (ESAKE) (Basketball)</td><td class="vs">1st Division</td><td>Olympiacos, Panathinaikos, AEK</td><td>10 EuroLeague championships since 1988; globally competitive</td></tr>
+        <tr><td>A1 Ethniki (Volleyball)</td><td class="vs">1st Division</td><td>Olympiacos, Panathinaikos</td><td>Well-attended; national team competitive at European level</td></tr>
+        <tr><td>Water Polo Leagues</td><td class="vs">Elite Level</td><td>Olympiacos, Vouliagmeni</td><td>World Championship gold and bronze 2025 — global elite status</td></tr>
+        <tr><td>Tennis</td><td class="vs">ATP / WTA</td><td>Stefanos &amp; Petros Tsitsipas, Maria Sakkari</td><td>Greece's first top-5 ATP/WTA players; Paris 2024 representatives</td></tr>
+        <tr><td>Athens Classic Marathon</td><td class="vs">IAAF Gold Label</td><td>SEGAS / Hellenic Athletics Assoc.</td><td>~50,000 runners; unique "authentic" marathon heritage branding</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hbs fi">
+    <p><strong>Athens 2004 Olympic Legacy:</strong> The 2004 Athens Olympics were transformative for Greek sport. Greece earned 16 medals (6G, 6S, 4B) — its best result since 1896 — placing 15th overall. The Games left a legacy of world-class sports infrastructure across Athens, including the Olympic Velodrome, Aquatics Centre, and Olympic Stadium, many of which continue to host international events including the 2024 WAKO European Kickboxing Championships. Greece also recently hosted the UEFA Super Cup (2023) and the UEFA Conference League Final (2024), and is set to host the Women's EuroBasket (2025) — reflecting a continued role as a European sports events destination.</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PART II: ARMY / DEFENSE — WORLDWIDE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="army-world">
+<div class="wrap">
+  <div class="part-hero pa fi">
+    <span class="part-tag">Part II — Global · Defense &amp; Military Industry</span>
+    <h2 class="part-h">Army &amp; Defense<br><em>Industry</em><br>Worldwide</h2>
+    <p class="part-desc">The global defense industry is undergoing one of the most profound transformations in modern history. Driven by Russia's invasion of Ukraine, growing NATO rearmament imperatives, US-China geopolitical rivalry, and rapid military technology disruption — including AI-driven autonomous systems, hypersonic weapons, and drone warfare — defense spending has surged to levels not seen since the Cold War era.</p>
+  </div>
+  <div class="part-bar ba"></div>
+
+  <h3 class="sec-title fi">2.1 Global Defense Spending &amp; Market Size</h3>
+  <p class="body-t fi">Military expenditure and the "defense market" are measured differently. Expenditure includes all government spending on armed forces. The defense industry market refers specifically to commercial procurement and production of hardware, systems, and services. Both measures are at or near historic highs.</p>
+
+  <div class="big-nums fi">
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--army-amber)">$2.56T</div>
+      <div class="bnum-label">Global Military Expenditure (2024)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--army-amber)">$541B</div>
+      <div class="bnum-label">Defense Market (Industry, 2025)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--army-amber)">$985B</div>
+      <div class="bnum-label">Defense Market Projected (2034)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--army-amber)">6.9%</div>
+      <div class="bnum-label">Industry CAGR 2025–2034</div>
+    </div>
+  </div>
+
+  <div class="grid-4 fi">
+    <div class="card ca">
+      <div class="card-label">Global Military Expenditure (2024)</div>
+      <div class="card-val">$2,563B</div>
+      <div class="card-note">MarketsandMarkets; projected $2,688B in 2025</div>
+      <span class="badge up">▲ +4.9% growth rate</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Defense Market (Commercial Industry, 2025)</div>
+      <div class="card-val">$541.1B</div>
+      <div class="card-note">Projected $985.4B by 2034 — CAGR 6.9%</div>
+      <span class="badge up">▲ +6.9% CAGR</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Aerospace &amp; Defense Market (2025)</div>
+      <div class="card-val">$846.9B</div>
+      <div class="card-note">Including commercial aerospace; projected $1,470B by 2032</div>
+      <span class="badge up">▲ +8.2% CAGR</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Defense Market Projected (2026)</div>
+      <div class="card-val">$2,750B</div>
+      <div class="card-note">Projected $4,268B by 2035 — CAGR 5%</div>
+      <span class="badge up">▲ Long-cycle growth</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">US Military Budget (2023)</div>
+      <div class="card-val">$941B</div>
+      <div class="card-note">World's largest defense budget by far; ~3.4% of US GDP</div>
+      <span class="badge up">▲ Largest globally</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Military Aircraft Manufacturing (2025)</div>
+      <div class="card-val">$280.9B</div>
+      <div class="card-note">IBISWorld — 1,286 businesses; Lockheed Martin leads</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">US DoD R&amp;D Funding (2023)</div>
+      <div class="card-val">$120B</div>
+      <div class="card-note">Focused on autonomous systems, AI, cybersecurity</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">UAVs Deployed (US Military, 2023)</div>
+      <div class="card-val">8,500+</div>
+      <div class="card-note">Unmanned aerial &amp; ground vehicles; major shift to automation</div>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">2.2 Top Defense Spending Nations (2023–2024)</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Country</th><th>Defense Spend (2023/2024)</th><th>% of GDP</th><th>NATO Member</th></tr></thead>
+      <tbody>
+        <tr><td>🇺🇸 United States</td><td class="va">$941B (2023)</td><td class="va">~3.4%</td><td>Yes</td></tr>
+        <tr><td>🇨🇳 China</td><td class="va">2nd globally</td><td class="va">~1.7%</td><td>No</td></tr>
+        <tr><td>🇷🇺 Russia</td><td class="va">3rd globally; 7%+ of GDP</td><td class="va">~7%+ GDP</td><td>No — Ukraine war driver</td></tr>
+        <tr><td>🇮🇳 India</td><td class="va">4th globally</td><td class="va">~2.4%</td><td>No</td></tr>
+        <tr><td>🇺🇦 Ukraine</td><td class="va">~35% of GDP (wartime)</td><td class="va">~35% (!)</td><td>Candidate</td></tr>
+        <tr><td>🇵🇱 Poland</td><td class="va">~3.8–4%+ of GDP</td><td class="va">~4%</td><td>Yes — #2 NATO spender by %</td></tr>
+        <tr><td>🇬🇷 Greece</td><td class="va">€7.1B / $7.6B (2024)</td><td class="va">3.1%</td><td>Yes — top 5 NATO by %</td></tr>
+        <tr><td>🇫🇷 France</td><td class="va">~2% of GDP</td><td class="va">~2%</td><td>Yes</td></tr>
+        <tr><td>🇩🇪 Germany</td><td class="va">~2% of GDP; €100B special fund</td><td class="va">~2%</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">2.3 Defense Market Segmentation by Type (2024)</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Segment</th><th>2024 Market Share / Size</th><th>Leading Platforms</th></tr></thead>
+      <tbody>
+        <tr><td>Air-Based Defense Equipment</td><td class="va">34.4% / $162.9B</td><td>F-35, F-22, Su-57, J-20, Rafale, Eurofighter; combat UAVs</td></tr>
+        <tr><td>Defense Systems &amp; Services</td><td class="va">57.2% share (2025)</td><td>Command &amp; control, cyber, missile defense, integration services</td></tr>
+        <tr><td>Sea-Based Defense</td><td class="va">Significant share</td><td>Aircraft carriers, destroyers, submarines, corvettes, USVs</td></tr>
+        <tr><td>Land-Based Equipment</td><td class="va">Large segment</td><td>Tanks (Abrams, Leopard, T-90), IFVs, artillery, loitering munitions</td></tr>
+        <tr><td>Maintenance, Repair &amp; Overhaul (MRO)</td><td class="va">Fastest-growing segment</td><td>Expected to gain $90.53B by 2029; growing as aging fleets expand</td></tr>
+        <tr><td>Autonomous / Unmanned Systems</td><td class="va">Fastest-growth within segments</td><td>Drones, USVs, autonomous ground vehicles; +CAGR 20%+</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">2.4 Top Global Defense Contractors (2025)</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Company</th><th>Country</th><th>Revenue Estimate</th><th>Key Programs</th></tr></thead>
+      <tbody>
+        <tr><td>Lockheed Martin</td><td>USA</td><td class="va">~$67–70B</td><td>F-35 Lightning II, F-22, THAAD, Aegis, hypersonics; #1 global defense firm</td></tr>
+        <tr><td>RTX Corp (Raytheon)</td><td>USA</td><td class="va">~$68–72B</td><td>Patriot PAC-3, Tomahawk, Stinger, AMRAAM, Pratt &amp; Whitney engines</td></tr>
+        <tr><td>Northrop Grumman</td><td>USA</td><td class="va">~$40–42B</td><td>B-21 Raider stealth bomber, James Webb Space Telescope, cyber systems</td></tr>
+        <tr><td>Boeing Defense</td><td>USA</td><td class="va">Part of Boeing ~$78B</td><td>F-15EX, AH-64 Apache, P-8 Poseidon, KC-46 tanker</td></tr>
+        <tr><td>General Dynamics</td><td>USA</td><td class="va">~$42–44B</td><td>Columbia-class submarines, Abrams tank, Stryker, Gulfstream jets</td></tr>
+        <tr><td>BAE Systems</td><td>UK</td><td class="va">~£25–27B</td><td>Type 26 frigate, CV90, M777 howitzer, APKWS rockets</td></tr>
+        <tr><td>Airbus Defence &amp; Space</td><td>EU</td><td class="va">Part of Airbus ~€65B</td><td>A400M transport, Eurofighter, Ariane 6, military satellites</td></tr>
+        <tr><td>Leonardo SpA</td><td>Italy</td><td class="va">~€16–17B</td><td>AW101 helicopter, M-346 trainer, radar systems, cyber</td></tr>
+        <tr><td>Thales Group</td><td>France</td><td class="va">~€19–20B</td><td>Air defense radars, avionics, underwater systems, cybersecurity</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">2.5 Technology Trends Reshaping Defense</h3>
+  <ul class="blist ba fi">
+    <li><strong>AI &amp; Autonomous Systems:</strong> $120B+ US DoD R&amp;D allocation with AI as a central focus. 8,500+ US military UAVs and ground robots deployed by 2023. Autonomous weapons — "lethal autonomous weapons systems" (LAWS) — are a subject of intense global debate.</li>
+    <li><strong>Hypersonic Weapons:</strong> Hypersonic weapons (capable of Mach 5+) are described as the most disruptive emerging technology in defense. US, China, Russia, and France all have active development programs; first operational systems were deployed in 2022–2025.</li>
+    <li><strong>Drone Warfare Revolution:</strong> Ukraine-Russia war proved the decisive battlefield role of cheap commercial drones and loitering munitions ("kamikaze drones"). Demand for counter-drone systems (C-UAS) surged globally. Greece's Centauros anti-drone system proved itself in Red Sea operations 2024–25.</li>
+    <li><strong>Space-Based Defense:</strong> Increasing defense investment in satellite communications, ISR (intelligence, surveillance, and reconnaissance) constellations, and anti-satellite capabilities. Space is formally recognized as a domain of warfare.</li>
+    <li><strong>Cyber Warfare:</strong> A $120B+ US R&amp;D allocation included major cybersecurity components. Nation-state cyber attacks on critical infrastructure are now a standard feature of geopolitical competition. Defense budgets now routinely include dedicated cyber commands.</li>
+    <li><strong>Supply Chain Pressures (Tariffs 2025):</strong> US tariff increases in spring 2025 surged prices for titanium, carbon fiber composites, and avionics. Defense contractors with fixed-price government contracts absorbed rising costs — a structural financial pressure on the industry.</li>
+  </ul>
+</div>
+</section>
+
+<!-- ARMY — EUROPE -->
+<section id="army-europe">
+<div class="wrap">
+  <div class="sec-banner pa fi">
+    <span class="sec-banner-tag" style="color:var(--army-amber)">Part II continued — Europe Focus</span>
+    <h2 class="part-h"><em>European</em><br>Defense Industry</h2>
+    <p class="part-desc" style="margin-top:1rem">Europe's defense landscape underwent historic transformation in 2022–2025. Russia's full-scale invasion of Ukraine triggered the largest peacetime military spending increase in European history. NATO's 2% GDP target — which only 6 members met in 2021 — was met by 23 of 32 members by 2024. The EU's ReArm Europe / Readiness 2030 program, committing €650 billion+ in off-balance-sheet defense financing, reshapes the continent's military-industrial complex.</p>
+  </div>
+  <div class="part-bar ba"></div>
+
+  <h3 class="sec-title fi">2.6 European Defense Spending</h3>
+  <div class="grid-4 fi">
+    <div class="card ca">
+      <div class="card-label">Europe Total Defense Spending (2023)</div>
+      <div class="card-val">$569B</div>
+      <div class="card-note">SIPRI — all European NATO members combined</div>
+      <span class="badge up">▲ Historic high</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">EU ReArm Europe Fund</div>
+      <div class="card-val">€650B+</div>
+      <div class="card-note">Off-balance-sheet; plus €150B low-interest loans for defense industries</div>
+      <span class="badge up">▲ Historic commitment</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Germany Special Defense Fund</div>
+      <div class="card-val">€100B</div>
+      <div class="card-note">Announced post-Ukraine invasion; F-35 jets, air defense, ISR</td></tr></div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Europe Defense Market Share (2026–35)</div>
+      <div class="card-val">30–32%</div>
+      <div class="card-note">European share of global defense market over forecast decade</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">NATO Members Meeting 2% (2024)</div>
+      <div class="card-val">23 / 32</div>
+      <div class="card-note">Up from just 6 nations in 2021 — massive acceleration</div>
+      <span class="badge up">▲ From 6 to 23 in 3 years</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Poland Defense Spend (% GDP, 2025)</div>
+      <div class="card-val">~4%+</div>
+      <div class="card-note">Largest NATO spender by % alongside Greece; $2B Patriot purchase</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">EU Average Defense Spend (2025)</div>
+      <div class="card-val">~1.9%</div>
+      <div class="card-note">SIPRI estimate; rising rapidly from ~1.5% in 2021</div>
+      <span class="badge up">▲ Accelerating</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">European Defense Firms Revenue</div>
+      <div class="card-val">€50B+</div>
+      <div class="card-note">Combined revenue of BAE, Airbus Defence, Thales, Leonardo, KNDS, Dassault</div>
+    </div>
+  </div>
+
+  <div class="hbox hba fi">
+    <p><strong>The ReArm Europe Inflection Point:</strong> In early 2025, the EU activated its ReArm Europe / Readiness 2030 program — described as the most significant collective defense investment in European history. Greece became <strong>the first EU member to formally use relaxed spending rules under the program</strong> to announce a multi-year rearmament package. The bloc agreed to offer €150 billion in low-interest loans to member defense industries, intending to reduce dependence on US-made systems and build an autonomous European defense industrial base. This marks a structural change in European defense economics that will reshape procurement, industrial policy, and military posture for at least a decade.</p>
+  </div>
+</div>
+</section>
+
+<!-- ARMY — GREECE -->
+<section id="army-greece">
+<div class="wrap">
+  <div class="sec-banner pa fi">
+    <span class="sec-banner-tag" style="color:var(--army-amber)">Part II continued — Greece Focus</span>
+    <h2 class="part-h">Greek Army &amp;<br><em>Defense Industry</em></h2>
+    <p class="part-desc" style="margin-top:1rem">Greece's defense posture is shaped by its historically tense relationship with Turkey — a fellow NATO member with whom it has unresolved disputes over the Aegean Sea, eastern Mediterranean EEZ, and Cyprus. These geopolitical realities have made Greece one of NATO's consistently highest defense spenders by % of GDP for decades. In 2025, Greece launched the largest military modernisation plan in its modern history.</p>
+  </div>
+  <div class="part-bar ba"></div>
+
+  <h3 class="sec-title fi">2.7 Greece Defense Budget &amp; Spending</h3>
+  <div class="grid-4 fi">
+    <div class="card ca">
+      <div class="card-label">Defense Budget (2024)</div>
+      <div class="card-val">€7.1B</div>
+      <div class="card-note">~$7.6B; 3.1% of Greek GDP — top 5 NATO spenders by %</div>
+      <span class="badge up">▲ Above NATO 2% target</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Defense Budget (2025)</div>
+      <div class="card-val">€6.13B</div>
+      <div class="card-note">~$6.6B; budget effectively doubled in 2025 vs prior years</div>
+      <span class="badge up">▲ Doubled YoY</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">12-Year Modernisation Plan (2025–2036)</div>
+      <div class="card-val">€25B</div>
+      <div class="card-note">Largest defense investment in modern Greek history — €28B per some sources</div>
+      <span class="badge up">▲ Historic commitment</span>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Hellenic Defense Industry (Domestic)</div>
+      <div class="card-val">25%+</div>
+      <div class="card-note">At least 25% of €25B investment pledged to Greek domestic industry</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Achilles Shield Program</div>
+      <div class="card-val">€2.8B</div>
+      <div class="card-note">Multi-layered anti-drone / anti-missile / anti-ship / anti-submarine dome; operational by 2027</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">F-35A Fighter Jet Order</div>
+      <div class="card-val">20 jets</div>
+      <div class="card-note">~€3.47B ($3.9B); delivery from 2028; partnership with USA</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">Rafale Fighter Jets (French)</div>
+      <div class="card-val">24 jets</div>
+      <div class="card-note">~$2.5B deal; all delivered/in delivery; Greece first EU non-France Rafale operator</div>
+    </div>
+    <div class="card ca">
+      <div class="card-label">FDI Belharra Frigates</div>
+      <div class="card-val">4 frigates</div>
+      <div class="card-note">€2.26B+; 3rd frigate (Formion) launched June 2025; French Naval Group</div>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">2.8 The "Achilles Shield" &amp; Modernisation Program (2025–2036)</h3>
+  <p class="body-t fi">In April 2025, Prime Minister Mitsotakis presented to the Greek Parliament what he called "the most drastic transformation of the armed forces in the country's modern history." The plan has four pillars and targets multi-domain warfare capability.</p>
+
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Program / Acquisition</th><th>Details</th><th>Partner</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Achilles Shield (IADS Dome)</td><td>Multi-layered: anti-missile, anti-ballistic, anti-aircraft, anti-ship, anti-submarine, anti-drone; AI-powered; operational 2027</td><td>Israel (IAI), France, Norway</td><td class="va">€2.8B</td></tr>
+        <tr><td>F-35A Lightning II</td><td>20 stealth multi-role fighters; replaces F-4 Phantoms; delivery from 2028</td><td>USA (Lockheed Martin)</td><td class="va">€3.47B</td></tr>
+        <tr><td>FDI Belharra Frigates</td><td>4 frigates (3rd launched June 2025, Formion); most advanced Greek surface combatants ever</td><td>France (Naval Group)</td><td class="va">€2.26B+</td></tr>
+        <tr><td>New Submarines (x4)</td><td>International tender underway; Sweden, Germany, France, Italy, South Korea competing; BlueWhale autonomous USV from Israel also reported</td><td>TBD</td><td class="va">Multi-billion</td></tr>
+        <tr><td>F-16 Viper Upgrades</td><td>Upgrading F-16 Block 50 to advanced "Viper" (Block 72) configuration; enhances interoperability and AESA radar</td><td>USA (Lockheed Martin)</td><td class="va">~€1.1B+</td></tr>
+        <tr><td>UH-60M Black Hawk Helicopters</td><td>35 helicopters; multipurpose missions; complement Rafale integration</td><td>USA (Sikorsky)</td><td class="va">~€1B</td></tr>
+        <tr><td>Patriot PAC-3 Air Defense</td><td>Upgrade of existing Patriot batteries for ballistic missile defense</td><td>USA (RTX)</td><td class="va">Significant</td></tr>
+        <tr><td>EURO-PULS MLRS</td><td>36–40 multiple launch rocket systems; land forces firepower enhancement</td><td>Europe consortium</td><td class="va">Significant</td></tr>
+        <tr><td>Leopard 2 Tanks</td><td>Acquisition and upgrade of Leopard 2 and 1 tanks for ground forces modernisation</td><td>Germany (KMW)</td><td class="va">Significant</td></tr>
+        <tr><td>Switchblade Loitering Munitions</td><td>US Switchblade drones for Army precision strike capability</td><td>USA (AeroVironment)</td><td class="va">Significant</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hbox hba fi">
+    <p><strong>Strategic Context — Greece vs. Turkey:</strong> Greece spends ~3.1% of GDP on defense (2024) — far above the NATO 2% target — because of ongoing disputes with Turkey over the Aegean, eastern Mediterranean EEZ, and Cyprus. Greece has 1,400+ islands, many close to the Turkish coast, requiring extensive military garrisons that are "quite expensive," as analysts note. During the 2010–2018 financial crisis, Greece's defense budget fell to $4.6B — nearly half its current level — while Turkey's economy and defense budget grew substantially. The 2025–2036 plan represents a deliberate strategic catch-up: replacing quantity (where Greece cannot compete with Turkey) with quality and high-tech systems that Turkey does not possess. Greece now positions itself as the EU's southeastern defence anchor and strategic hub for NATO operations in the Eastern Mediterranean, with the Alexandroupoli base serving as a key logistics node for NATO and US forces in Eastern Europe.</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PART III: FOOD INDUSTRY — WORLDWIDE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="food-world">
+<div class="wrap">
+  <div class="part-hero pf fi">
+    <span class="part-tag">Part III — Global · Food &amp; Beverage Industry</span>
+    <h2 class="part-h">Food &amp;<br><em>Beverage</em><br>Industry Worldwide</h2>
+    <p class="part-desc">The global food industry is the world's largest economic sector — feeding over 8 billion people and generating more than $9 trillion in revenue at the consumer market level in 2025. It encompasses agriculture, food processing and manufacturing, packaging, distribution, restaurants and food service, and the rapidly growing functional and health food segments. The sector is undergoing simultaneous transformation from AI-driven automation, sustainability mandates, and shifting consumer preferences toward healthy, plant-based, and ethically sourced products.</p>
+  </div>
+  <div class="part-bar bf"></div>
+
+  <h3 class="sec-title fi">3.1 Global Food Market — Size &amp; Scale</h3>
+  <p class="body-t fi">Market definitions matter: "food market" can mean retail food only, food + beverages, food service / restaurants, or food manufacturing. Below we present all major measures with clear scope definitions.</p>
+
+  <div class="big-nums fi">
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--food-red)">$9.21T</div>
+      <div class="bnum-label">Food Retail Market (2025, Statista)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--food-red)">$8.71T</div>
+      <div class="bnum-label">Food &amp; Beverages Market (2025)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--food-red)">$3.98T</div>
+      <div class="bnum-label">Food Service / Restaurants (2025)</div>
+    </div>
+    <div class="bnum">
+      <div class="bnum-val" style="color:var(--food-red)">6.0%</div>
+      <div class="bnum-label">Average CAGR to 2035</div>
+    </div>
+  </div>
+
+  <div class="grid-4 fi">
+    <div class="card cf">
+      <div class="card-label">Food Retail Market (Statista, 2025)</div>
+      <div class="card-val">$9.21T</div>
+      <div class="card-note">At-home food consumption; excludes out-of-home dining</div>
+      <span class="badge up">▲ +6.35% CAGR to 2030</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Food &amp; Beverages Market (Broad, 2025)</div>
+      <div class="card-val">$8.71T</div>
+      <div class="card-note">Towards FnB; projected $14.72T by 2034 — CAGR 6%</div>
+      <span class="badge up">▲ $14.72T by 2034</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Food Service / Restaurants (2025)</div>
+      <div class="card-val">$3.98T</div>
+      <div class="card-note">Fortune BI; projected $6.45T by 2032 — CAGR 7.13%</div>
+      <span class="badge up">▲ +7.13% CAGR</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">China Food Market (2025)</div>
+      <div class="card-val">$2.0T</div>
+      <div class="card-note">Largest single-country food market globally (Statista)</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Packaged Food Volume (2024)</div>
+      <div class="card-val">2.2B MT</div>
+      <div class="card-note">metric tons of packaged food sold globally in 2024</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">QSR (Fast Food) Market (2024)</div>
+      <div class="card-val">$353.8B</div>
+      <div class="card-note">Quick service restaurants alone; CAGR 5.7% through 2034</div>
+      <span class="badge up">▲ 42% of food service</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Plant-Based Protein Market (2025)</div>
+      <div class="card-val">$20.3B</div>
+      <div class="card-note">Projected $43.1B by 2034 — CAGR 8.7%</div>
+      <span class="badge up">▲ Fast growth</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Online Food Delivery Revenue (2025)</div>
+      <div class="card-val">~$690B</div>
+      <div class="card-note">Platform-to-consumer delivery projected revenues</div>
+      <span class="badge up">▲ Digital transformation</span>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">3.2 Regional Food Market Distribution (2025)</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Region</th><th>Market Share</th><th>Revenue (2025 est.)</th><th>Key Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Asia-Pacific</td><td class="vf">~37–41%</td><td class="vf">~$3.45T (Cognitive)</td><td>China (#1, $2T), India, Japan; fastest growing; 39.2% China share of APAC food</td></tr>
+        <tr><td>North America</td><td class="vf">~27–28%</td><td class="vf">~$2.61T (Cognitive)</td><td>US dominant (79.4%); food retail CAGR 5.8% through 2033</td></tr>
+        <tr><td>Europe</td><td class="vf">~21–24%</td><td class="vf">~$2.07T (Cognitive)</td><td>Germany (19.2%), Russia (11.9%), UK (11.4%) lead European food spending</td></tr>
+        <tr><td>Latin America</td><td class="vf">~6–7%</td><td class="vf">~$647B</td><td>Brazil (34.8% of LAm), Argentina, Colombia; CAGR 6.46% to 2033</td></tr>
+        <tr><td>Middle East &amp; Africa</td><td class="vf">~4–5%</td><td class="vf">~$453B</td><td>Saudi Arabia (38.8% of ME), Turkey (23.2%); UAE; fastest CAGR in MEA</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">3.3 Food Market Segmentation by Product</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Segment</th><th>2025 Market Size / Share</th><th>Key Facts</th></tr></thead>
+      <tbody>
+        <tr><td>Meat &amp; Poultry</td><td class="vf">$1.55T (Statista)</td><td>Largest single food segment globally; China, US, Brazil dominate production</td></tr>
+        <tr><td>Snacks &amp; Confectionery</td><td class="vf">$1.77T (confectionery + snacks)</td><td>Largest sub-segment by value per StartUs Insights; China generates $1.63T</td></tr>
+        <tr><td>Snack Foods Specifically</td><td class="vf">$265.95B</td><td>Projected $468.76B by 2034 — CAGR 6.50%</td></tr>
+        <tr><td>Dairy Products</td><td class="vf">885M metric tons (volume)</td><td>Feta cheese alone (Greece) generates €630M export revenue annually</td></tr>
+        <tr><td>Plant-Based &amp; Vegan Foods</td><td class="vf">$22.38B (vegan, 2025)</td><td>Projected $55.88B by 2034 — CAGR 10.7%</td></tr>
+        <tr><td>Organic &amp; Health Foods</td><td class="vf">Growing rapidly</td><td>75% of consumers willing to pay premium for no synthetic additives (bioMérieux 2024)</td></tr>
+        <tr><td>Gluten-Free Foods</td><td class="vf">$14.25B (2025)</td><td>Projected $33.59B by 2034 — CAGR 10%</td></tr>
+        <tr><td>Functional / Fortified Foods</td><td class="vf">Fast-growing</td><td>Health-focused purchasing influences 45% of consumer decisions globally</td></tr>
+        <tr><td>Beverages (non-alcoholic)</td><td class="vf">>1.3B kiloliters volume</td><td>Bottled water alone: 210M kiloliters; functional hydration booming</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">3.4 Leading Global Food Companies</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Company</th><th>Country</th><th>Revenue</th><th>Key Segments</th></tr></thead>
+      <tbody>
+        <tr><td>Nestlé S.A.</td><td>Switzerland</td><td class="vf">~CHF 89–92B</td><td>Coffee (Nescafé, Nespresso), dairy, nutrition, confectionery, pet food; world's largest food company</td></tr>
+        <tr><td>PepsiCo Inc.</td><td>USA</td><td class="vf">~$91–95B</td><td>Snacks (Lay's, Cheetos), Pepsi, Gatorade, Quaker; $1.95B Poppi acquisition (Mar 2025)</td></tr>
+        <tr><td>The Coca-Cola Company</td><td>USA</td><td class="vf">~$45–47B</td><td>Soft drinks, juices, teas, bottled water; 15-nation water stewardship program</td></tr>
+        <tr><td>JBS S.A.</td><td>Brazil</td><td class="vf">~R$360B</td><td>World's largest meat processing company; beef, pork, chicken globally</td></tr>
+        <tr><td>Anheuser-Busch InBev</td><td>Belgium</td><td class="vf">~$59–62B</td><td>World's largest brewer; Budweiser, Stella Artois, Corona, Beck's</td></tr>
+        <tr><td>Mars Inc.</td><td>USA</td><td class="vf">~$47B</td><td>Confectionery, pet food; $36B Kellanova acquisition agreed Aug 2024</td></tr>
+        <tr><td>Tyson Foods</td><td>USA</td><td class="vf">~$52–55B</td><td>Chicken, beef, pork processing; Jimmy Dean, Ball Park brands</td></tr>
+        <tr><td>Danone</td><td>France</td><td class="vf">~€27–28B</td><td>Dairy, plant-based, baby nutrition, medical nutrition</td></tr>
+        <tr><td>Mondelez International</td><td>USA</td><td class="vf">~$36–37B</td><td>Oreo, Cadbury, Milka, Toblerone; global snacking leader</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">3.5 Industry Trends &amp; Disruptions</h3>
+  <ul class="blist bf fi">
+    <li><strong>AI &amp; Automation:</strong> 52% of global restaurant operators plan to invest in kitchen automation in 2025. McDonald's and Domino's use AI for delivery logistics and demand forecasting. Sweetgreen's "Infinite Kitchen" (2025) features fully automated salad assembly, halving labor costs while doubling output.</li>
+    <li><strong>Mars-Kellanova Mega-Merger ($36B):</strong> August 2024's agreement between Mars and Kellanova (Pringles, Pop-Tarts, Cheez-It) represents one of the largest food industry M&amp;A deals in history — signalling continued consolidation pressure in snacks and confectionery.</li>
+    <li><strong>PepsiCo Acquires Poppi ($1.95B):</strong> In March 2025, PepsiCo entered the "functional soda" category via acquisition — reflecting a structural shift away from traditional colas toward health-positioned beverages with prebiotics and adaptogens.</li>
+    <li><strong>Plant-Based &amp; Vegan Expansion:</strong> Vegan food CAGR of 10.7% through 2034; plant-based protein at 8.7%. However, early market leaders (Beyond Meat) face profitability challenges; the segment is consolidating around viable, differentiated products.</li>
+    <li><strong>Online Grocery Revolution:</strong> Food and beverage as % of total US e-commerce grew from 12.8% (2017) to 26%+ (2024), projected 31% by 2029. Global platform-to-consumer food delivery projected at ~$690B in 2025.</li>
+    <li><strong>Supply Chain Vulnerability:</strong> Raw material volatility impacts 33% of manufacturers; supply chain inefficiencies affect 29% of operations. Geopolitical disruptions, climate events, and US tariff increases in 2025 created significant cost pressures throughout global food supply chains.</li>
+    <li><strong>Sustainability Imperative:</strong> 42% of buyers now factor sustainable packaging into purchase decisions. 75% of consumers globally willing to pay a premium for additive-free products. Coca-Cola, Nestlé, and Danone all have major water and carbon reduction commitments tied to regulatory and investor pressure.</li>
+  </ul>
+</div>
+</section>
+
+<!-- FOOD — EUROPE -->
+<section id="food-europe">
+<div class="wrap">
+  <div class="sec-banner pf fi">
+    <span class="sec-banner-tag" style="color:var(--food-red)">Part III continued — Europe Focus</span>
+    <h2 class="part-h"><em>European</em><br>Food Industry</h2>
+    <p class="part-desc" style="margin-top:1rem">Europe holds approximately 21–24% of global food and beverage market value, making it the second-largest regional food economy after Asia-Pacific. The continent is characterised by high food safety standards, strong geographical indication (GI) protection for premium products (Champagne, Parmigiano-Reggiano, Feta), a sophisticated food service culture, and an increasingly health- and sustainability-conscious consumer base.</p>
+  </div>
+  <div class="part-bar bf"></div>
+
+  <h3 class="sec-title fi">3.6 European Food Market Data</h3>
+  <div class="grid-4 fi">
+    <div class="card cf">
+      <div class="card-label">Europe Food Market (2025 est.)</div>
+      <div class="card-val">~$2.07T</div>
+      <div class="card-note">Cognitive Market Research — ~21.8% of global food market</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Germany — Largest EU Food Market</div>
+      <div class="card-val">19.2%</div>
+      <div class="card-note">Of European food market revenue share; most sophisticated retail ecosystem</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Asia-Pacific Market Share (F&amp;B, 2025)</div>
+      <div class="card-val">40.88%</div>
+      <div class="card-note">Mordor Intelligence — leads global F&amp;B; supermarkets hold 51.1% of distribution</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Europe Food Industry CAGR</div>
+      <div class="card-val">~6%</div>
+      <div class="card-note">Through 2033; projected to reach $3,328B by 2033</div>
+      <span class="badge up">▲ Strong growth</span>
+    </div>
+  </div>
+
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Country</th><th>Share of European Market</th><th>Key Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Germany</td><td class="vf">19.2%</td><td>Largest EU food market; Aldi, Lidl, Rewe dominate retail; strong food manufacturing base (meat, dairy, bread)</td></tr>
+        <tr><td>Russia</td><td class="vf">11.9%</td><td>Included in "Europe" by some measures; large consumer base despite sanctions-era disruption</td></tr>
+        <tr><td>United Kingdom</td><td class="vf">11.4%</td><td>Post-Brexit regulatory divergence; Tesco, Sainsbury's; strong food innovation ecosystem</td></tr>
+        <tr><td>France</td><td class="vf">10.2%</td><td>Premium food culture; Carrefour; major agri-food exporter; wine, cheese, charcuterie GI products</td></tr>
+        <tr><td>Spain</td><td class="vf">7.1%</td><td>Olive oil (with Greece top 3 globally), wine, Iberico, Serrano; Mercadona dominates retail</td></tr>
+        <tr><td>Sweden</td><td class="vf">5.0%</td><td>High-income market; sustainability pioneers; Oatly (oat milk) global brand</td></tr>
+        <tr><td>Denmark</td><td class="vf">4.4%</td><td>Dairy superpower (Arla Foods); Noma restaurant legacy shapes food innovation culture</td></tr>
+        <tr><td>Italy</td><td class="vf">4.6%</td><td>Premium GI foods (Parmigiano, Prosciutto, Barolo); strong SME food producer base</td></tr>
+        <tr><td>Greece</td><td class="vf">~1–1.5%</td><td>Small market share but outsized cultural influence; olive oil, feta, Mediterranean diet</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- FOOD — GREECE -->
+<section id="food-greece">
+<div class="wrap">
+  <div class="sec-banner pf fi">
+    <span class="sec-banner-tag" style="color:var(--food-red)">Part III continued — Greece Focus</span>
+    <h2 class="part-h">Food &amp; Agriculture<br>Industry in <em>Greece</em></h2>
+    <p class="part-desc" style="margin-top:1rem">Greece's food industry is deeply intertwined with its cultural identity, geographic advantages, and agricultural heritage. The Mediterranean climate supports exceptional production of olive oil, feta cheese, fresh fruits, wine, and seafood. Agriculture contributes approximately 4% of Greek GDP — nearly double the EU average — and exports of agricultural products account for one third of total Greek exports. The domestic food market is estimated at $25.8–27.6 billion in 2025, with significant upside from tourism-driven gastronomy and export growth.</p>
+  </div>
+  <div class="part-bar bf"></div>
+
+  <h3 class="sec-title fi">3.7 Greek Food Market — Key Statistics</h3>
+  <div class="grid-4 fi">
+    <div class="card cf">
+      <div class="card-label">Greece Food Market Revenue (2025, Statista)</div>
+      <div class="card-val">$27.6B</div>
+      <div class="card-note">Projected $31.8B by 2029 — CAGR 3.65%; meat is largest segment ($6.3B)</div>
+      <span class="badge up">▲ Growing</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Greece Food &amp; Drink Market (Broad, 2025)</div>
+      <div class="card-val">$25.8B</div>
+      <div class="card-note">Proficient Market Insights; projected $39.3B by 2033 — CAGR 5.40%</div>
+      <span class="badge up">▲ +5.4% CAGR</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Food Product Manufacturing Market (2025)</div>
+      <div class="card-val">€15.5B</div>
+      <div class="card-note">IBISWorld; 20,404 businesses; CAGR 6.2% 2019–2024</div>
+      <span class="badge up">▲ +6.2% CAGR</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Agricultural Exports (2021)</div>
+      <div class="card-val">$9B</div>
+      <div class="card-note">+20.7% growth vs. 2020; cotton, cheese, olive oil, table olives top categories</div>
+      <span class="badge up">▲ +20.7%</span>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Agriculture Share of GDP</div>
+      <div class="card-val">~4%</div>
+      <div class="card-note">Nearly double EU average of ~2%; employs 12.4–12.6% of total workforce</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Food Industry Businesses (Active)</div>
+      <div class="card-val">20,404</div>
+      <div class="card-note">Manufacturing alone; with food service much higher. 29% of all manufacturing enterprises</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Feta Cheese Export Revenue</div>
+      <div class="card-val">€630M</div>
+      <div class="card-note">Annually; Greece produces 140,000 tonnes/yr; 90,000 exported (EU Protected Designation)</div>
+    </div>
+    <div class="card cf">
+      <div class="card-label">Olive Trees in Greece</div>
+      <div class="card-val">130–150M</div>
+      <div class="card-note">Covering up to 60% of land; 2,800+ olive oil mills; 126,000–200,000 tonnes exported yearly</div>
+    </div>
+  </div>
+
+  <h3 class="sec-title fi">3.8 Key Greek Agricultural Products &amp; Export Data</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Product</th><th>Production / Export</th><th>Global Position</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Olive Oil</td><td class="vf">126,000–200,000 tonnes exported/yr</td><td class="vf">Top 3 globally</td><td>Koroneiki variety = 60% of production; 2,800+ mills across country; Crete &amp; Peloponnese lead</td></tr>
+        <tr><td>Feta Cheese</td><td class="vf">140,000 tonnes/yr; €630M exports</td><td class="vf">EU-protected designation (PDO)</td><td>Price rose from €7.10/kg (2021) to €12.50/kg (2023) — cost pressure on exports</td></tr>
+        <tr><td>Cotton</td><td class="vf">183,800 tonnes (2010)</td><td class="vf">#1 EU producer (2010)</td><td>Major export to textile industry; Thessaly plain leading production region</td></tr>
+        <tr><td>Fresh Fruits (Citrus, Peaches, Grapes)</td><td class="vf">Major exporter</td><td class="vf">Top 5 EU fruit producers</td><td>Oranges, lemons, mandarins, peaches, nectarines, watermelons; seasonal export peaks</td></tr>
+        <tr><td>Wine</td><td class="vf">Significant &amp; growing</td><td class="vf">Quality global recognition</td><td>Santorini Assyrtiko &amp; Nemea Agiorgitiko gaining international acclaim; growing exports</td></tr>
+        <tr><td>Pistachios</td><td class="vf">8,000 tonnes (2010)</td><td class="vf">#1 EU producer (2010)</td><td>Aegina pistachio — unique PDO product; premium international market</td></tr>
+        <tr><td>Olives (table)</td><td class="vf">Top producer</td><td class="vf">Major EU exporter</td><td>Kalamata olives globally recognised; Chalkidiki variety popular in North America</td></tr>
+        <tr><td>Honey</td><td class="vf">~16,000 tonnes/yr</td><td class="vf">EU top producer per capita</td><td>Thyme honey from Hymettus mountain &amp; Crete; premium positioning globally</td></tr>
+        <tr><td>Seafood</td><td class="vf">~100,000 tonnes aquaculture</td><td class="vf">Major Mediterranean producer</td><td>Sea bream, sea bass, mussels; Nile delta shrimp; tourism economy tie-in</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sec-title fi">3.9 Greek Food Market — Consumer Trends &amp; Challenges</h3>
+  <ul class="blist bf fi">
+    <li><strong>Mediterranean Diet Global Premium:</strong> Rising global interest in the Mediterranean diet is creating export opportunities for Greek producers. The diet's clinical endorsement for cardiovascular health, longevity, and cognitive function drives demand for Greek olive oil, legumes, nuts, and fresh produce in North American, Northern European, and Asian premium markets.</li>
+    <li><strong>Feta Cheese Price Surge:</strong> Feta prices jumped from €7.10/kg (2021) to €12.50/kg (2023) — a 76% increase — driven by input cost inflation and demand. While benefiting producers, the surge risks pricing Greece out of volume markets and into pure premium positioning.</li>
+    <li><strong>Tourism-Food Industry Symbiosis:</strong> With tourism generating ~18% of Greek GDP, the food and gastronomy sector benefits from 30M+ annual visitors. The government invested €17M+ from EU Recovery Funds (2022–2025) to develop agro-tourism — opening dairy factories and olive oil mills to tourists as combined gastro-tourism experiences.</li>
+    <li><strong>Organic Farming Boom:</strong> Organic farming has grown dramatically in Greece in recent years, partly driven by EU Common Agricultural Policy (CAP 2023–27) incentives (€13.4B strategic plan for Greece approved 2022). Greece's agricultural land is increasingly certified organic, particularly in olive oil, herbs, and vegetables.</li>
+    <li><strong>Plant-Based &amp; Vegan Trend:</strong> Growing demand for plant-based and vegan products among Greek consumers, with producers introducing plant-based versions of traditional Greek foods. Weight management product value sales also increased in 2025, reflecting rising health consciousness.</li>
+    <li><strong>Fragmented Production Structure:</strong> With approximately 600,000 agricultural workers and small farm sizes (average Greek farm ~5.4 hectares vs. EU average ~17 hectares), Greece faces structural challenges in scaling production, ensuring consistent quality for export, and investing in cold-chain infrastructure.</li>
+    <li><strong>Climate Change Risk:</strong> Rising temperatures, increased drought frequency, and extreme weather events threaten olive, grape, and citrus production — the cornerstones of Greek agricultural exports. This is Greece's single largest long-term structural food industry risk.</li>
+  </ul>
+
+  <div class="hbox hbf fi">
+    <p><strong>Greece's Global Food Brand Advantage:</strong> Greece punches far above its economic weight in the global food conversation. With approximately €15.5B in food manufacturing and $27.6B in total food market revenue, the country generates outsized global brand value — particularly through olive oil (top-3 global exporter), feta cheese (world's most famous protected cheese by name recognition), Kalamata olives, and the broader Mediterranean diet framework. The EU CAP 2023–2027 strategic plan allocates €13.4B to Greece specifically, creating the foundation for upgrading production capacity, infrastructure, and agro-tourism. The challenge is structural: converting an industry of 20,000+ fragmented SMEs into a competitive, scalable export machine while preserving the artisan quality that commands global premiums.</p>
+  </div>
+
+  <hr>
+
+  <!-- FINAL SUMMARY TABLE -->
+  <h3 class="sec-title fi" style="text-align:center;margin-bottom:2rem">Final Summary — Three Industries at a Glance</h3>
+  <div class="tbl-wrap fi">
+    <table>
+      <thead><tr><th>Industry</th><th>Global Market</th><th>Key Driver (2025–26)</th><th>Greece's Position</th><th>Europe's Role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>🏃 Sports &amp; Athletics</td>
+          <td class="vs">$495B (narrow) / $2.65T (broad)</td>
+          <td>AI analytics, athleisure, esports, Saudi sportswashing</td>
+          <td>Birthplace of Olympics; 169 Olympic medals; Olympiacos UEFA title 2024; water polo world gold 2025</td>
+          <td>31%+ analytics share; EPL global dominance; Paris 2024 economic impact €10–11B</td>
+        </tr>
+        <tr>
+          <td>🪖 Army &amp; Defense</td>
+          <td class="va">$541B (industry) / $2.56T (expenditure)</td>
+          <td>Ukraine war, NATO rearmament, AI/drone warfare, US-China rivalry</td>
+          <td>€25B modernisation plan 2025–2036; F-35, Rafale, FDI frigates, Achilles Shield; 3.1% GDP spending</td>
+          <td>23/32 NATO members at 2%+ GDP; EU ReArm Europe €650B+; Germany €100B special fund</td>
+        </tr>
+        <tr>
+          <td>🍽️ Food &amp; Beverage</td>
+          <td class="vf">$8.71T (F&amp;B) / $9.21T (retail food)</td>
+          <td>AI automation, plant-based, delivery platforms, M&amp;A consolidation</td>
+          <td>$27.6B market; 20,404 food businesses; €630M feta exports; top-3 global olive oil exporter</td>
+          <td>~21% global share; Germany leads; EU CAP €13.4B for Greece; Mediterranean diet premiumisation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <p><strong>Global Industry Statistical Analysis — Volume II · March 2026</strong></p>
+    <p style="margin-top:0.5rem">Sports: Research &amp; Markets, Statista, Grand View Research, IBISWorld, Fortune BI, Global Sports Insights, Mordor Intelligence, Grokipedia, Wikipedia Sports in Greece, HOC Press Releases, COE Country Profile Greece</p>
+    <p>Defense: MarketsandMarkets, SIPRI, IBISWorld, ResearchandMarkets, Business Research Insights, US Trade.gov, Wikipedia Greek Defence Modernisation Plan, Euronews, Al Jazeera, Fortune Europe, GIS Reports, CNBC, Finabel, GreekReporter, Wikipedia Economy of Greece</p>
+    <p>Food: Statista, Fortune Business Insights, IMARC, Cognitive Market Research, Global Growth Insights, Towards FnB, Mordor Intelligence, Market Reports World, IBISWorld Greece, USDA GAIN Greece Report, MFA Greece, SEE-Industry, Euromonitor, Wikipedia Economy of Greece</p>
+    <p style="margin-top:1rem;font-size:0.72rem;color:#555">All market size estimates represent consensus ranges from multiple research sources. Definitions and methodologies vary across providers. This report is compiled for informational and analytical purposes. March 2026.</p>
+  </div>
+</footer>
+
+<a class="btt" href="#top" title="Back to top">↑</a>
+
+<script>
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+},{threshold:0.06});
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// Nav highlight
+const secs = document.querySelectorAll('section[id]');
+const nitems = document.querySelectorAll('.nitem');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 150) cur = s.id; });
+  nitems.forEach(n => {
+    n.style.opacity = n.getAttribute('href') === '#'+cur ? '1' : '0.45';
+  });
+}, {passive:true});
+</script>
+</body>
+</html>
