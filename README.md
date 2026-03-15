@@ -1,0 +1,1 @@
+This is an .html file with statistical analysis based on real updated data  about athletism, army and food industries..You will have to copy-paste the code on your notepad and save it as .html then double click the file and there you go you can see a full statistical analysis on those 3 issues.
